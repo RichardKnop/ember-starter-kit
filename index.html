@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ember Starter Kit</title>
+    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bower_components/twitter/dist/css/bootstrap.min.css">
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/twitter/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<script type="text/x-handlebars">
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Bloggr</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <li>{{#link-to 'posts'}}Posts{{/link-to}}</li>
+                <li>{{#link-to 'about'}}About{{/link-to}}</li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+
+    <div id="content">
+        {{outlet}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="posts">
+    <div class="row">
+          <div class="col-md-4">
+              <table class="table table-striped">
+                  <thead>
+                  <tr>
+                      <th>Recent Posts</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {{#each}}
+                  <tr>
+                      <td>
+                          {{#link-to "post" this}}
+                            {{{title}}} <small class="muted">bu {{author.name}}</small>
+                          {{/link-to}}
+                      </td>
+                  </tr>
+                  {{/each}}
+                  </tbody>
+              </table>
+          </div>
+          <div class="col-md-8">
+              {{outlet}}
+          </div>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="post">
+    {{#if isEditing}}
+        {{partial "post/edit"}}
+        <button class="btn btn-default" {{action "doneEditing"}}>Done</button>
+    {{else}}
+        <button class="btn btn-default" {{action "edit"}}>Edit</button>
+    {{/if}}
+
+    <h1>{{{title}}}</h1>
+    <h2>by {{author.name}} <small class="muted">({{format-date date}})</small></h2>
+
+    <hr>
+
+    <div class="intro">
+        {{{excerpt}}}
+    </div>
+
+    <div class="bellow-the-fold">
+        {{{format-markdown body}}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="post/_edit">
+    <form role="form">
+        <div class="form-group">
+            {{input type="text" classNames="form-control" value=title}}
+        </div>
+        <div class="form-group">
+            {{input type="text" classNames="form-control" value=excerpt}}
+        </div>
+        <div class="form-group">
+            {{textarea classNames="form-control" value=body}}
+        </div>
+    </form>
+</script>
+
+<script type="text/x-handlebars" id="about">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam massa eros, aliquet quis risus sollicitudin,
+        accumsan tincidunt risus. Maecenas fringilla, enim sit amet viverra placerat, ipsum massa laoreet nibh, ac
+        ullamcorper sapien tortor sed sapien. Fusce ut mauris ac orci lacinia vehicula sed vitae urna. Aliquam erat
+        volutpat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas sed cursus lacus. Fusce
+        venenatis ligula tortor, a vulputate nibh imperdiet quis. Aliquam ac arcu malesuada, malesuada leo sed,
+        pellentesque odio. Aliquam vel lorem vitae urna mollis ullamcorper. Lorem ipsum dolor sit amet, consectetur
+        adipiscing elit. Duis feugiat id arcu sit amet adipiscing. Vivamus vitae purus non tortor venenatis
+        condimentum.</p>
+
+    <p>Mauris turpis mauris, consectetur in nisl vel, adipiscing viverra arcu. Nulla tortor turpis, condimentum eu
+        egestas sit amet, scelerisque ut neque. Vivamus mi tortor, vehicula sed nisl ac, blandit sodales est.
+        Vestibulum hendrerit ligula massa, non sollicitudin nisi congue eu. Quisque lobortis malesuada metus.
+        Aliquam nec libero purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+    <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. In eget condimentum ante, ac placerat ligula.
+        Nullam blandit elit non metus commodo faucibus luctus non nulla. Maecenas vitae sapien nec lorem venenatis
+        viverra at a tellus. Duis a sagittis eros. Sed in purus aliquam, fermentum est eget, blandit mauris. Duis
+        mattis eu erat sit amet laoreet. Nulla imperdiet eleifend enim eu dictum. Nam velit justo, iaculis at tellus ut,
+        mollis suscipit ante. Donec vel malesuada turpis, eu viverra nulla.</p>
+</script>
+
+<script src="bower_components/handlebars/handlebars.js"></script>
+<script src="bower_components/ember/ember.min.js"></script>
+<script src="bower_components/showdown/compressed/showdown.js"></script>
+<script src="bower_components/momentjs/min/moment.min.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
